@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 
 const app = express();
 
-app.get("/random_track", async (req, res) => {
+app.get("/api/random_track", async (req, res) => {
   const data = await fetch(
     "https://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country=spain&api_key=4edd125cb9c86539211a2ab327676660&format=json"
   );
@@ -13,6 +13,19 @@ app.get("/random_track", async (req, res) => {
     name: randomTrack.name,
     artist: randomTrack.artist.name,
   });
+});
+
+app.get("/api/top_tracks", async (req, res) => {
+  const data = await fetch(
+    "https://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country=spain&api_key=4edd125cb9c86539211a2ab327676660&format=json"
+  );
+  const top50 = await data.json();
+  res.json(
+    top50.tracks.track.map((track) => ({
+      name: track.name,
+      artist: track.artist.name,
+    }))
+  );
 });
 
 const PORT = process.env.PORT || 3001;
