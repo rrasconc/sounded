@@ -14,7 +14,9 @@ export const Main = () => {
   const [winnerTrack, setWinnerTrack] = React.useState("");
   const [trackList, setTrackList] = React.useState([]);
   const [filteredTrackList, setFilteredTrackList] = React.useState([]);
+
   const [message, setMessage] = React.useState("Guess the song !");
+
   const [currentAttempt, setCurrentAttempt] = React.useState(1);
   const [attemptsList, setAttemptsList] = React.useState(attempts);
 
@@ -83,22 +85,23 @@ export const Main = () => {
   }, []);
 
   return (
-    <section className="flex flex-1 flex-col p-5 bg-slate-100 min-h-screen min-w-screen">
-      <div className="md:w-3/5 md:max-w-lg self-center">
-        <h1 className="text-xl font-bold text-gray-700">{message}</h1>
+    <section className="flex flex-1 flex-col bg-slate-100 min-h-screen min-w-screen">
+      <div className="md:w-3/5 md:max-w-lg self-center mt-20">
+        <h1 className="text-5xl font-bold text-slate-700 my-12">{message}</h1>
         {/* <h1 className="text-gray-400">Winner track: {winnerTrack}</h1> */}
-        <h1 className="text-gray-400">
-          You have {7 - currentAttempt} attempts remaining
-        </h1>
 
         <div className="flex justify-center my-4">
           {attempts.map((attempt) => (
             <span
               key={attempt.id}
-              className={`h-6 w-6 mx-1 ${attempt.color}  rounded-md`}
+              className={`h-8 w-8 mx-1 ${attempt.color}  rounded-md`}
             ></span>
           ))}
         </div>
+
+        <h1 className="text-gray-400 text-2xl">
+          You have {7 - currentAttempt} attempts remaining
+        </h1>
 
         <form
           className={`flex p-1 justify-around items-center mt-4 bg-white ${
@@ -118,9 +121,9 @@ export const Main = () => {
             onChange={(e) => handleChange(e)}
             value={selectedTrack}
             type="text"
-            className="w-full ml-2 md:ml-4 text-gray-800 focus:outline-none focus:shadow-outline focus:"
+            className="text-xl w-full ml-2 md:ml-4 text-slate-800 focus:outline-none focus:shadow-outline"
           />
-          <button className="bg-cyan-500 transition-colors hover:bg-cyan-600 text-white w-24 p-1 rounded-lg text-sm font-bold">
+          <button className="bg-cyan-500 transition-colors hover:bg-cyan-600 text-white w-24 p-1 rounded-lg text-lg font-bold">
             Try !
           </button>
         </form>
@@ -134,13 +137,21 @@ export const Main = () => {
             <span
               onClick={() => handleClick(track.name)}
               key={Math.random()}
-              className="text-left px-4 py-2 border-t-2 border-gray-50 hover:cursor-pointer hover:bg-gray-100"
+              className="text-left text-xl text-slate-800 px-4 py-2 border-t-2 border-gray-50 hover:cursor-pointer hover:bg-gray-100"
             >
               {track.name}
             </span>
           ))}
         </div>
       </div>
+      <footer className="bg-slate-200 p-2 bottom-0 fixed w-full">
+        <a
+          href="https://www.github.com/rigobertorascon"
+          className="text-slate-800 text-md"
+        >
+          Github
+        </a>
+      </footer>
     </section>
   );
 };
