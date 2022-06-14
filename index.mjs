@@ -3,6 +3,9 @@ import fetch from "node-fetch";
 
 const app = express();
 
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, "../client/build")));
+
 app.get("/api/random_track", async (req, res) => {
   const data = await fetch(
     "https://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country=spain&api_key=4edd125cb9c86539211a2ab327676660&format=json"
@@ -26,6 +29,11 @@ app.get("/api/top_tracks", async (req, res) => {
       artist: track.artist.name,
     }))
   );
+});
+
+// All other GET requests not handled before will return our React app
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
 const PORT = process.env.PORT || 3001;
