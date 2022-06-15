@@ -1,5 +1,8 @@
 import React from "react";
 
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const attempts = [
   { id: 1, color: "bg-slate-300" },
   { id: 2, color: "bg-slate-300" },
@@ -98,9 +101,7 @@ export const Main = () => {
           ))}
         </div>
 
-        <h1 className="text-gray-400 text-2xl">
-          You have {7 - currentAttempt} attempts remaining
-        </h1>
+        <audio controls autoplay className="w-full"></audio>
 
         {/* searchbar start */}
         <form
@@ -111,6 +112,13 @@ export const Main = () => {
           } border-gray-200 shadow-lg shadow-slate-200`}
           onSubmit={handleSubmit}
         >
+          {!selectedTrack && (
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              size="lg"
+              className="self-center text-slate-200 ml-2"
+            />
+          )}
           <input
             onKeyDown={(e) => {
               if (e.key === "Tab" || e.key === "Enter") {
@@ -118,10 +126,11 @@ export const Main = () => {
                 handleTab();
               }
             }}
+            placeholder="Search for a song"
             onChange={(e) => handleChange(e)}
             value={selectedTrack}
             type="text"
-            className="text-xl w-full ml-2 md:ml-4 text-slate-800 focus:outline-none focus:shadow-outline"
+            className="text-xl w-full ml-3 text-slate-800 focus:outline-none focus:shadow-outline"
           />
           <button className="bg-cyan-500 transition-colors hover:bg-cyan-600 text-white w-24 p-1 rounded-lg text-lg font-bold">
             Try !
