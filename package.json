@@ -19,6 +19,6 @@
     "nodemon": "^2.0.16"
   },
   "engines": {
-    "node": "v17.9.0"
+    "node": "v16.x"
   }
 }
