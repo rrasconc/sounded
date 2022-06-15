@@ -86,9 +86,8 @@ export const Main = () => {
 
   return (
     <section className="flex flex-1 flex-col bg-slate-100 min-h-screen min-w-screen">
-      <div className="md:w-3/5 md:max-w-lg self-center mt-20">
+      <div className="md:w-3/5 md:max-w-lg self-center mt-12">
         <h1 className="text-5xl font-bold text-slate-700 my-12">{message}</h1>
-        {/* <h1 className="text-gray-400">Winner track: {winnerTrack}</h1> */}
 
         <div className="flex justify-center my-4">
           {attempts.map((attempt) => (
@@ -103,12 +102,13 @@ export const Main = () => {
           You have {7 - currentAttempt} attempts remaining
         </h1>
 
+        {/* searchbar start */}
         <form
           className={`flex p-1 justify-around items-center mt-4 bg-white ${
             filteredTrackList.length > 0
               ? "border-t-2 border-l-2 border-r-2 rounded-t-xl"
               : "border-2 rounded-xl"
-          } border-gray-200 shadow-sm`}
+          } border-gray-200 shadow-lg shadow-slate-200`}
           onSubmit={handleSubmit}
         >
           <input
@@ -127,11 +127,10 @@ export const Main = () => {
             Try !
           </button>
         </form>
-
         <div
           className={`${
             filteredTrackList.length > 0 ? "flex flex-col" : "hidden"
-          }  h-34 p-1 bg-white border-b-2 border-l-2 border-r-2 border-gray-200 shadow-sm rounded-b-xl`}
+          }  h-34 p-1 mb-4 bg-white border-b-2 border-l-2 border-r-2 border-gray-200 shadow-lg shadow-slate-200 rounded-b-xl z-20 relative`}
         >
           {filteredTrackList.map((track) => (
             <span
@@ -144,7 +143,9 @@ export const Main = () => {
           ))}
         </div>
       </div>
-      <footer className="bg-slate-200 p-2 bottom-0 fixed w-full">
+      {/* searchbar start */}
+
+      <footer className="bg-slate-200 p-2 bottom-0 fixed w-full z-10">
         <a
           href="https://www.github.com/rigobertorascon"
           className="text-slate-800 text-md"
