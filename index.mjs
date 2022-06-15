@@ -1,10 +1,15 @@
 import express from "express";
 import fetch from "node-fetch";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, "../client/build")));
+app.use(express.static(__dirname + "../client/build"));
 
 app.get("/api/random_track", async (req, res) => {
   const data = await fetch(
@@ -33,7 +38,7 @@ app.get("/api/top_tracks", async (req, res) => {
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+  res.sendFile(__dirname + "../client/build", "index.html");
 });
 
 const PORT = process.env.PORT || 3001;
