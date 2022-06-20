@@ -4,10 +4,19 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Game } from "./components/Game";
+import Results from "./components/Results";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="results" element={<Results />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
