@@ -2,6 +2,8 @@ import React from "react";
 
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { Section } from "./Section";
 
 const attempts = [
   { id: 1, color: "bg-slate-300" },
@@ -23,6 +25,14 @@ export const Game = () => {
 
   const [currentAttempt, setCurrentAttempt] = React.useState(1);
   const [attemptsList, setAttemptsList] = React.useState(attempts);
+
+  let navigate = useNavigate();
+
+  const getResults = () => {
+    setTimeout(() => {
+      navigate("results");
+    }, 1000);
+  };
 
   const fetchRandomTrack = async () => {
     fetch("/api/random_track")
@@ -69,6 +79,11 @@ export const Game = () => {
       }, 1500);
     }
 
+    if (currentAttempt === 6) {
+      getResults();
+      return;
+    }
+
     setSelectedTrack("");
     setCurrentAttempt(currentAttempt + 1);
   };
@@ -110,7 +125,7 @@ export const Game = () => {
 
   return (
     <main className="App">
-      <section className="flex flex-1 flex-col bg-slate-100 min-h-screen min-w-screen">
+      <Section>
         <div className="md:w-3/5 md:max-w-lg self-center mt-12">
           <h1 className="text-5xl font-bold text-slate-700 my-12">{message}</h1>
 
@@ -173,17 +188,7 @@ export const Game = () => {
             ))}
           </div>
         </div>
-        {/* searchbar start */}
-
-        <footer className="bg-slate-200 p-2 bottom-0 fixed w-full z-10">
-          <a
-            href="https://www.github.com/rigobertorascon"
-            className="text-slate-800 text-md"
-          >
-            Github
-          </a>
-        </footer>
-      </section>
+      </Section>
     </main>
   );
 };
