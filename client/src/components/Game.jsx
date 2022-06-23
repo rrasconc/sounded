@@ -33,9 +33,11 @@ export const Game = () => {
   let navigate = useNavigate();
 
   const getResults = () => {
+    const results = { attempts: attemptsList, winnerTrack: winnerTrack };
+    localStorage.setItem("results", JSON.stringify(results));
     setTimeout(() => {
       navigate("results", {
-        state: { attempts: attemptsList, winnerTrack: winnerTrack },
+        state: results,
       });
     }, 1000);
   };
@@ -121,7 +123,17 @@ export const Game = () => {
     }
   };
 
+  const fetchResults = async () => {
+    const results = JSON.parse(localStorage.getItem("results"));
+    if (results) {
+      navigate("results", {
+        state: results,
+      });
+    }
+  };
+
   React.useEffect(() => {
+    fetchResults();
     fetchRandomTrack();
     fetchTrackList();
   }, []);
