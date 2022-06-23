@@ -1,12 +1,24 @@
 import express from "express";
 import fetch from "node-fetch";
 import path from "path";
+import moment from "moment";
+import schedule from "node-schedule";
+
 import { fileURLToPath } from "url";
 
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+let randomIndex = Math.floor(Math.random() * 10);
+let tomorrow = moment().add(1, "day");
+
+schedule.scheduleJob("* 59 23 * * *", function () {
+  randomIndex = Math.floor(Math.random() * 10);
+  tomorrow = moment().add(1, "day");
+  console.log(`Random index: ${randomIndex} tomorrow: ${tomorrow}`);
+});
 
 // Have Node serve the files for our built React app
 app.use(express.static(path.join(__dirname, "client/build")));
@@ -16,10 +28,18 @@ app.get("/api/random_track", async (req, res) => {
     "https://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country=spain&api_key=4edd125cb9c86539211a2ab327676660&format=json"
   );
   const top50 = await data.json();
-  const randomTrack = top50.tracks.track[Math.floor(Math.random() * 50)];
+  const randomTrack = top50.tracks.track[randomIndex];
+  console.log({
+    name: randomTrack.name,
+    artist: randomTrack.artist.name,
+    image: randomTrack.image[1]["#text"],
+    tomorrow: tomorrow,
+  });
   res.json({
     name: randomTrack.name,
     artist: randomTrack.artist.name,
+    image: randomTrack.image[1]["#text"],
+    tomorrow: tomorrow,
   });
 });
 
