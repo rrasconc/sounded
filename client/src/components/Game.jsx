@@ -2,7 +2,11 @@ import React from "react";
 
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import { AttemptBox } from "./AttemptBox";
+import { Button } from "./Button";
+import { Container } from "./Container";
 import { Section } from "./Section";
 
 const attempts = [
@@ -30,7 +34,7 @@ export const Game = () => {
 
   const getResults = () => {
     setTimeout(() => {
-      navigate("results");
+      navigate("results", { state: { attempts: attemptsList } });
     }, 1000);
   };
 
@@ -61,23 +65,20 @@ export const Game = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    attemptsList[currentAttempt - 1].track = selectedTrack;
 
     if (selectedTrack === winnerTrack) {
       setMessage("You guessed the song !");
-      setAttemptsList([
-        ...attemptsList,
-        (attempts[currentAttempt - 1].color = "bg-green-500"),
-      ]);
+      attemptsList[currentAttempt - 1].color = "bg-green-500";
+      setAttemptsList([...attemptsList]);
     } else {
       setMessage("Wrong guess !");
-      setAttemptsList([
-        ...attemptsList,
-        (attempts[currentAttempt - 1].color = "bg-red-500"),
-      ]);
-      setTimeout(() => {
-        setMessage("Guess the song !");
-      }, 1500);
+      attemptsList[currentAttempt - 1].color = "bg-red-500";
+      setAttemptsList([...attemptsList]);
     }
+    setTimeout(() => {
+      setMessage("Guess the song !");
+    }, 1500);
 
     if (currentAttempt === 6) {
       getResults();
@@ -126,15 +127,12 @@ export const Game = () => {
   return (
     <main className="App">
       <Section>
-        <div className="md:w-3/5 md:max-w-lg self-center mt-12">
-          <h1 className="text-5xl font-bold text-slate-700 my-12">{message}</h1>
+        <Container>
+          <h1 className="text-4xl font-bold text-slate-700 my-12">{message}</h1>
 
           <div className="flex justify-center my-4">
             {attempts.map((attempt) => (
-              <span
-                key={attempt.id}
-                className={`h-8 w-8 mx-1 ${attempt.color}  rounded-md`}
-              ></span>
+              <AttemptBox key={Math.random()} color={attempt.color} />
             ))}
           </div>
 
@@ -168,9 +166,7 @@ export const Game = () => {
               type="text"
               className="text-xl w-full ml-3 text-slate-800 focus:outline-none focus:shadow-outline"
             />
-            <button className="bg-cyan-500 transition-colors hover:bg-cyan-600 text-white w-24 p-1 rounded-lg text-lg font-bold">
-              Try !
-            </button>
+            <Button label="Try !" />
           </form>
           <div
             className={`${
@@ -187,7 +183,7 @@ export const Game = () => {
               </span>
             ))}
           </div>
-        </div>
+        </Container>
       </Section>
     </main>
   );
