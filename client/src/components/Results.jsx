@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import moment from "moment";
 
 import { Section } from "./Section";
 import { useLocation } from "react-router-dom";
 import { AttemptBox } from "./AttemptBox";
 import { Container } from "./Container";
 import { Button } from "./Button";
+import Countdown from "react-countdown";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -32,8 +32,7 @@ export default function Results() {
           {`The track was: ${state.winnerTrack}`}
         </h1>
         <span className="text-xl text-slate-700">
-          Next track:
-          <span>{"{{time}}"}</span>
+          Next track: <Countdown date={Date.now() + 10000} />
         </span>
         <div className="flex flex-col justify-center my-4">
           {state.attempts.map((attempt) => (
