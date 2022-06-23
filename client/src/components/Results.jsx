@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
 
 import { Section } from "./Section";
@@ -9,13 +9,14 @@ import { Button } from "./Button";
 
 import Countdown from "react-countdown";
 
-const end = moment("2022-06-24");
 const now = moment();
-const duration = moment.duration(end.diff(now));
 
 export default function Results() {
   const { state } = useLocation();
   const [isClicked, setIsClicked] = React.useState(false);
+
+  const end = moment(state.winnerTrack.tomorrow);
+  const duration = moment.duration(end.diff(now));
 
   const handleShare = () => {
     setIsClicked(true);
@@ -29,6 +30,10 @@ export default function Results() {
     const message = `Sounded #1\n\n🔈 ${squares}\n\nsounded.herokuapp.com`;
     navigator.clipboard.writeText(message);
   };
+
+  useEffect(() => {
+    console.log(duration);
+  }, []);
 
   return (
     <Section>
