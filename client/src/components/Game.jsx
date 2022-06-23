@@ -45,7 +45,7 @@ export const Game = () => {
   const fetchRandomTrack = async () => {
     fetch("/api/random_track")
       .then((res) => res.json())
-      .then((data) => setWinnerTrack(data.name));
+      .then((data) => setWinnerTrack(data));
   };
 
   const fetchTrackList = async () => {
@@ -71,7 +71,7 @@ export const Game = () => {
     event.preventDefault();
     attemptsList[currentAttempt - 1].track = selectedTrack;
 
-    if (selectedTrack === winnerTrack) {
+    if (selectedTrack === winnerTrack.name) {
       setMessage("You guessed the song !");
       attemptsList[currentAttempt - 1].color = "bg-green-500";
       setAttemptsList([...attemptsList]);
@@ -84,7 +84,7 @@ export const Game = () => {
       setMessage("Guess the song !");
     }, 1500);
 
-    if (currentAttempt === 6) {
+    if (currentAttempt === 6 || selectedTrack === winnerTrack.name) {
       getResults();
       return;
     }
@@ -133,7 +133,7 @@ export const Game = () => {
   };
 
   React.useEffect(() => {
-    fetchResults();
+    //fetchResults();
     fetchRandomTrack();
     fetchTrackList();
   }, []);

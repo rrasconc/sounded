@@ -9,7 +9,7 @@ import { Button } from "./Button";
 
 import Countdown from "react-countdown";
 
-const end = moment("2022-06-23");
+const end = moment("2022-06-24");
 const now = moment();
 const duration = moment.duration(end.diff(now));
 
@@ -26,15 +26,18 @@ export default function Results() {
         return isRed ? "🟥 " : isGreen ? "🟩 " : "⬜️ ";
       })
       .join("");
-    const message = `Sounded #1\n\n🎧${squares}\n\nsounded.herokuapp.com`;
+    const message = `Sounded #1\n\n🔈 ${squares}\n\nsounded.herokuapp.com`;
     navigator.clipboard.writeText(message);
   };
 
   return (
     <Section>
       <Container>
-        <h1 className="text-3xl font-bold text-slate-700 my-12">
-          {`The track was: ${state.winnerTrack}`}
+        <h1 className="text-3xl font-bold text-slate-700 mt-12">
+          The answer was
+        </h1>
+        <h1 className="text-3xl font-bold text-slate-700 mb-12">
+          {`${state.winnerTrack.name} (${state.winnerTrack.artist})`}
         </h1>
 
         <div className="flex flex-col justify-center my-4">
