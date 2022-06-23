@@ -31,10 +31,6 @@ export default function Results() {
     navigator.clipboard.writeText(message);
   };
 
-  useEffect(() => {
-    console.log(duration);
-  }, []);
-
   return (
     <Section>
       <Container>

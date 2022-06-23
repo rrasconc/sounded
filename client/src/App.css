@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.a-delay-2 {
+  animation-delay: 0.2s;
+}
+.a-delay-4 {
+  animation-delay: 0.4s;
+}

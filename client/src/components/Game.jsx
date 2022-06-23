@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +9,7 @@ import { AttemptBox } from "./AttemptBox";
 import { Button } from "./Button";
 import { Container } from "./Container";
 import { Section } from "./Section";
+import { Loader } from "./Loader";
 
 const attempts = [
   { id: 1, color: "bg-slate-300" },
@@ -24,6 +26,8 @@ export const Game = () => {
   const [trackList, setTrackList] = React.useState([]);
   const [filteredTrackList, setFilteredTrackList] = React.useState([]);
   const [currentIndex, setCurrentIndex] = React.useState(0);
+
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const [message, setMessage] = React.useState("Guess the song !");
 
@@ -43,9 +47,13 @@ export const Game = () => {
   };
 
   const fetchRandomTrack = async () => {
+    setIsLoading(true);
     fetch("/api/random_track")
       .then((res) => res.json())
-      .then((data) => setWinnerTrack(data));
+      .then((data) => setWinnerTrack(data))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const fetchTrackList = async () => {
@@ -133,14 +141,16 @@ export const Game = () => {
   };
 
   React.useEffect(() => {
-    fetchResults();
+    // fetchResults();
     fetchRandomTrack();
     fetchTrackList();
   }, []);
 
   return (
-    <main className="App">
-      <Section>
+    <Section>
+      {isLoading ? (
+        <Loader />
+      ) : (
         <Container>
           <h1 className="text-4xl font-bold text-slate-700 my-12">{message}</h1>
 
@@ -198,7 +208,7 @@ export const Game = () => {
             ))}
           </div>
         </Container>
-      </Section>
-    </main>
+      )}
+    </Section>
   );
 };
