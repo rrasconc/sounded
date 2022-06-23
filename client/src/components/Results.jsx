@@ -1,19 +1,24 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React from "react";
+import moment from "moment";
 
 import { Section } from "./Section";
 import { useLocation } from "react-router-dom";
 import { AttemptBox } from "./AttemptBox";
 import { Container } from "./Container";
 import { Button } from "./Button";
+
 import Countdown from "react-countdown";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+const end = moment("2022-06-23");
+const now = moment();
+const duration = moment.duration(end.diff(now));
 
 export default function Results() {
   const { state } = useLocation();
+  const [isClicked, setIsClicked] = React.useState(false);
 
   const handleShare = () => {
+    setIsClicked(true);
     const squares = state.attempts
       .map((attempt) => {
         const isRed = attempt.color.includes("red");
@@ -31,14 +36,12 @@ export default function Results() {
         <h1 className="text-3xl font-bold text-slate-700 my-12">
           {`The track was: ${state.winnerTrack}`}
         </h1>
-        <span className="text-xl text-slate-700">
-          Next track: <Countdown date={Date.now() + 10000} />
-        </span>
+
         <div className="flex flex-col justify-center my-4">
           {state.attempts.map((attempt) => (
             <div
               key={Math.random()}
-              className="flex items-center my-2 p-2 bg-slate-200 rounded-lg"
+              className="flex items-center my-2 p-2 bg-slate-200 rounded-lg px-5"
             >
               <AttemptBox key={Math.random()} color={attempt.color} />
               <span className="ml-6 text-xl text-slate-700">
@@ -47,7 +50,19 @@ export default function Results() {
             </div>
           ))}
         </div>
-        <Button onClick={handleShare} label="Share" />
+
+        <h1 className="text-xl text-slate-700">
+          Next track:{" "}
+          <Countdown date={Date.now() + 1000 * duration.asSeconds()} />
+        </h1>
+
+        <Button
+          className={`mt-4 hover:scale-110 transition ease-out duration-300 ${
+            isClicked && "bg-cyan-600"
+          }`}
+          onClick={handleShare}
+          label={isClicked ? "Copied" : "Share"}
+        />
       </Container>
     </Section>
   );
