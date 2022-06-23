@@ -29,6 +29,10 @@ export default function Results() {
       .join("");
     const message = `Sounded #1\n\n🔈 ${squares}\n\nsounded.herokuapp.com`;
     navigator.clipboard.writeText(message);
+
+    setTimeout(() => {
+      setIsClicked(false);
+    }, 1500);
   };
 
   return (
@@ -61,7 +65,7 @@ export default function Results() {
         </h1>
 
         <Button
-          className={`mt-4 hover:scale-110 transition ease-out duration-300 ${
+          className={`my-4 hover:scale-110 hover:shadow-2xl transition ease-out duration-300 ${
             isClicked && "bg-cyan-600"
           }`}
           onClick={handleShare}

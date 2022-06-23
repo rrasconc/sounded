@@ -20,6 +20,8 @@ const attempts = [
   { id: 6, color: "bg-slate-300" },
 ];
 
+const now = moment();
+
 export const Game = () => {
   const [selectedTrack, setSelectedTrack] = React.useState("");
   const [winnerTrack, setWinnerTrack] = React.useState("");
@@ -34,7 +36,10 @@ export const Game = () => {
   const [currentAttempt, setCurrentAttempt] = React.useState(1);
   const [attemptsList, setAttemptsList] = React.useState(attempts);
 
-  let navigate = useNavigate();
+  const end = moment(winnerTrack.tomorrow);
+  const duration = moment.duration(end.diff(now));
+
+  const navigate = useNavigate();
 
   const getResults = () => {
     const results = { attempts: attemptsList, winnerTrack: winnerTrack };
@@ -141,7 +146,9 @@ export const Game = () => {
   };
 
   React.useEffect(() => {
-    // fetchResults();
+    if (duration.asSeconds() > 0) {
+      fetchResults();
+    }
     fetchRandomTrack();
     fetchTrackList();
   }, []);
