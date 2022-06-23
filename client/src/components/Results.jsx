@@ -12,8 +12,15 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 export default function Results() {
   const { state } = useLocation();
 
-  const handleClick = () => {
-    let message = "Sounded #\nSong";
+  const handleShare = () => {
+    const squares = state.attempts
+      .map((attempt) => {
+        const isRed = attempt.color.includes("red");
+        const isGreen = attempt.color.includes("green");
+        return isRed ? "🟥 " : isGreen ? "🟩 " : "⬜️ ";
+      })
+      .join("");
+    const message = `Sounded #1\n\n🎧${squares}\n\nsounded.herokuapp.com`;
     navigator.clipboard.writeText(message);
   };
 
@@ -21,8 +28,11 @@ export default function Results() {
     <Section>
       <Container>
         <h1 className="text-3xl font-bold text-slate-700 my-12">
-          {"The answer was: {{winnerTrack}}"}
+          {`The track was: ${state.winnerTrack}`}
         </h1>
+        <span className="text-xl text-slate-700">
+          Next song: <span>10:20:20</span>
+        </span>
         <div className="flex flex-col justify-center my-4">
           {state.attempts.map((attempt) => (
             <div
@@ -30,11 +40,13 @@ export default function Results() {
               className="flex items-center my-2 p-2 bg-slate-200 rounded-lg"
             >
               <AttemptBox key={Math.random()} color={attempt.color} />
-              <span className="ml-6 text-xl">{attempt.track}</span>
+              <span className="ml-6 text-xl text-slate-700">
+                {attempt.track}
+              </span>
             </div>
           ))}
         </div>
-        <Button onClick={handleClick} label="Share" />
+        <Button onClick={handleShare} label="Share" />
       </Container>
     </Section>
   );

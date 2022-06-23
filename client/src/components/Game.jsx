@@ -34,7 +34,9 @@ export const Game = () => {
 
   const getResults = () => {
     setTimeout(() => {
-      navigate("results", { state: { attempts: attemptsList } });
+      navigate("results", {
+        state: { attempts: attemptsList, winnerTrack: winnerTrack },
+      });
     }, 1000);
   };
 
