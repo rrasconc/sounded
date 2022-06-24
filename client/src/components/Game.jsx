@@ -1,7 +1,8 @@
 import React from "react";
 import moment from "moment";
+import YouTube from "react-youtube";
 
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +11,7 @@ import { Button } from "./Button";
 import { Container } from "./Container";
 import { Section } from "./Section";
 import { Loader } from "./Loader";
+import { SoundEffect } from "./SoundEffect";
 
 const attempts = [
   { id: 1, color: "bg-slate-300" },
@@ -35,6 +37,10 @@ export const Game = () => {
 
   const [currentAttempt, setCurrentAttempt] = React.useState(1);
   const [attemptsList, setAttemptsList] = React.useState(attempts);
+
+  const [player, setPlayer] = React.useState(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [songBlock, setSongBlock] = React.useState(0);
 
   const end = moment(winnerTrack.tomorrow);
   const duration = moment.duration(end.diff(now));
@@ -83,6 +89,7 @@ export const Game = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     attemptsList[currentAttempt - 1].track = selectedTrack;
+    setSongBlock((prev) => prev + 3);
 
     if (selectedTrack === winnerTrack.name) {
       setMessage("You guessed the song !");
@@ -145,6 +152,16 @@ export const Game = () => {
     }
   };
 
+  const handlePlay = () => {
+    setIsPlaying(true);
+    player.seekTo(songBlock);
+    player.playVideo();
+    setTimeout(() => {
+      player.pauseVideo();
+      setIsPlaying(false);
+    }, 4000);
+  };
+
   React.useEffect(() => {
     if (duration.asSeconds() > 0) {
       fetchResults();
@@ -160,16 +177,31 @@ export const Game = () => {
       ) : (
         <Container>
           <h1 className="text-4xl font-bold text-slate-700 my-12">{message}</h1>
+          {/** Track player start*/}
+          <YouTube
+            className="hidden"
+            videoId={"TJAfLE39ZZ8"}
+            onReady={(e) => {
+              setPlayer(e.target);
+            }}
+          />
+          <FontAwesomeIcon
+            icon={faPlay}
+            size="2xl"
+            className={`${
+              isPlaying && "hidden"
+            } cursor-pointer hover:scale-125 hover:shadow-2xl transition ease-out duration-300 mr-2 text-emerald-500`}
+            onClick={handlePlay}
+          />
+
+          <SoundEffect className={isPlaying === false && "hidden"} />
+          {/** Track player end*/}
 
           <div className="flex justify-center my-4">
             {attempts.map((attempt) => (
               <AttemptBox key={Math.random()} color={attempt.color} />
             ))}
           </div>
-
-          <audio controls autoPlay className="w-full">
-            <source src={require("../assets/block_1.mp3")} type="audio/mpeg" />
-          </audio>
 
           {/* searchbar start */}
           <form
