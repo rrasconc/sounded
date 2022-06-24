@@ -28,11 +28,24 @@ export default function Results() {
       })
       .join("");
     const message = `Sounded #1\n\n🔈 ${squares}\n\nsounded.herokuapp.com`;
-    navigator.clipboard.writeText(message);
-
+    //navigator.clipboard.writeText(message);
+    copyToClipboard(message);
     setTimeout(() => {
       setIsClicked(false);
     }, 1500);
+  };
+
+  const copyToClipboard = (content) => {
+    const el = document.createElement("textarea");
+    el.value = content;
+    el.setAttribute("readonly", "");
+    el.style.position = "absolute";
+    el.style.left = "-9999px";
+    document.body.appendChild(el);
+    el.select();
+    el.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    document.body.removeChild(el);
   };
 
   return (
