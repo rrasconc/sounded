@@ -172,7 +172,7 @@ export const Game = () => {
   };
 
   React.useEffect(() => {
-    //fetchResults();
+    fetchResults();
     fetchRandomTrack();
     fetchTrackList();
   }, []);
