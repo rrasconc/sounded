@@ -51,10 +51,10 @@ export default function Results() {
   return (
     <Section>
       <Container>
-        <h1 className="text-3xl font-bold text-slate-700 mt-12">
+        <h1 className="md:text-3xl text-2xl font-bold text-slate-700 mt-12">
           The answer was
         </h1>
-        <h1 className="text-3xl font-bold text-slate-700 mb-12">
+        <h1 className="md:text-3xl text-2xl font-bold text-slate-700 mb-12">
           {`${state.winnerTrack.name} (${state.winnerTrack.artist})`}
         </h1>
 
