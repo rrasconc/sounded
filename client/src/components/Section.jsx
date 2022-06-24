@@ -7,12 +7,16 @@ export const Section = ({ children }) => {
         {children}
 
         <footer className="bg-slate-200 p-2 mt-auto w-full">
-          <a
-            href="https://www.github.com/rigobertorascon"
-            className="text-slate-800 text-md"
-          >
-            Github
-          </a>
+          <span className="ml-4">
+            Tracks by
+            <a
+              href="https://www.last.fm/home"
+              className="text-slate-800 text-md underline"
+            >
+              {" "}
+              last.fm
+            </a>
+          </span>
         </footer>
       </section>
     </main>
