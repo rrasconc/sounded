@@ -172,7 +172,7 @@ export const Game = () => {
   };
 
   React.useEffect(() => {
-    fetchResults();
+    //fetchResults();
     fetchRandomTrack();
     fetchTrackList();
   }, []);
@@ -183,7 +183,9 @@ export const Game = () => {
         <Loader />
       ) : (
         <Container>
-          <h1 className="text-4xl font-bold text-slate-700 my-12">{message}</h1>
+          <h1 className="md:text-3xl text-2xl font-bold text-slate-700 my-12">
+            {message}
+          </h1>
           {/** Track player start*/}
           <YouTube
             className="hidden"
