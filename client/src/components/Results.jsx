@@ -8,6 +8,7 @@ import { Container } from "./Container";
 import { Button } from "./Button";
 
 import Countdown from "react-countdown";
+import { Navbar } from "./Navbar";
 
 const now = moment();
 
@@ -27,7 +28,7 @@ export default function Results() {
         return isRed ? "🟥 " : isGreen ? "🟩 " : "⬜️ ";
       })
       .join("");
-    const message = `Sounded #1\n\n🔈 ${squares}\n\nsounded.herokuapp.com`;
+    const message = `Sounded #2\n\n🔈 ${squares}\n\nsounded.herokuapp.com`;
     //navigator.clipboard.writeText(message);
     copyToClipboard(message);
     setTimeout(() => {
@@ -49,42 +50,45 @@ export default function Results() {
   };
 
   return (
-    <Section>
-      <Container>
-        <h1 className="md:text-3xl text-2xl font-bold text-slate-700 mt-12">
-          The answer was
-        </h1>
-        <h1 className="md:text-3xl text-2xl font-bold text-slate-700 mb-12">
-          {`${state.winnerTrack.name} (${state.winnerTrack.artist})`}
-        </h1>
+    <>
+      <Navbar />
+      <Section>
+        <Container>
+          <h1 className="md:text-3xl text-2xl font-bold text-slate-700 mt-12">
+            The answer was
+          </h1>
+          <h1 className="md:text-3xl text-2xl font-bold text-slate-700 mb-12">
+            {`${state.winnerTrack.name} (${state.winnerTrack.artist})`}
+          </h1>
 
-        <div className="flex flex-col justify-center my-4">
-          {state.attempts.map((attempt) => (
-            <div
-              key={Math.random()}
-              className="flex items-center my-2 p-2 bg-slate-200 rounded-lg px-5"
-            >
-              <AttemptBox key={Math.random()} color={attempt.color} />
-              <span className="ml-6 text-xl text-slate-700">
-                {attempt.track}
-              </span>
-            </div>
-          ))}
-        </div>
+          <div className="flex flex-col justify-center my-4">
+            {state.attempts.map((attempt) => (
+              <div
+                key={Math.random()}
+                className="flex items-center my-2 p-2 bg-slate-200 rounded-lg px-5"
+              >
+                <AttemptBox key={Math.random()} color={attempt.color} />
+                <span className="ml-6 text-xl text-slate-700">
+                  {attempt.track}
+                </span>
+              </div>
+            ))}
+          </div>
 
-        <h1 className="text-xl text-slate-700">
-          Next track:{" "}
-          <Countdown date={Date.now() + 1000 * duration.asSeconds()} />
-        </h1>
+          <h1 className="text-xl text-slate-700">
+            Next track:{" "}
+            <Countdown date={Date.now() + 1000 * duration.asSeconds()} />
+          </h1>
 
-        <Button
-          className={`my-4 hover:scale-110 hover:shadow-2xl transition ease-out duration-300 ${
-            isClicked && "bg-cyan-600"
-          }`}
-          onClick={handleShare}
-          label={isClicked ? "Copied" : "Share"}
-        />
-      </Container>
-    </Section>
+          <Button
+            className={`my-4 hover:scale-110 hover:shadow-2xl transition ease-out duration-300 ${
+              isClicked && "bg-cyan-600"
+            }`}
+            onClick={handleShare}
+            label={isClicked ? "Copied" : "Share"}
+          />
+        </Container>
+      </Section>
+    </>
   );
 }

@@ -12,6 +12,7 @@ import { Container } from "./Container";
 import { Section } from "./Section";
 import { Loader } from "./Loader";
 import { SoundEffect } from "./SoundEffect";
+import { Navbar } from "./Navbar";
 
 const attempts = [
   { id: 1, color: "bg-slate-300" },
@@ -178,85 +179,88 @@ export const Game = () => {
   }, []);
 
   return (
-    <Section>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <Container>
-          <h1 className="md:text-3xl text-2xl font-bold text-slate-700 my-12">
-            {message}
-          </h1>
-          {/** Track player start*/}
-          <YouTube
-            className="hidden"
-            videoId={"TJAfLE39ZZ8"}
-            onReady={(e) => {
-              setPlayer(e.target);
-            }}
-          />
-          <FontAwesomeIcon
-            icon={faPlay}
-            size="2xl"
-            className={`${
-              isPlaying && "hidden"
-            } cursor-pointer hover:scale-125 hover:shadow-2xl transition ease-out duration-300 mr-2 text-emerald-500`}
-            onClick={handlePlay}
-          />
-
-          <SoundEffect className={isPlaying === false && "hidden"} />
-          {/** Track player end*/}
-
-          <div className="flex justify-center my-4">
-            {attempts.map((attempt) => (
-              <AttemptBox key={Math.random()} color={attempt.color} />
-            ))}
-          </div>
-
-          {/* searchbar start */}
-          <form
-            className={`flex p-1 justify-around items-center mt-4 bg-white ${
-              filteredTrackList.length > 0
-                ? "border-t-2 border-l-2 border-r-2 rounded-t-xl"
-                : "border-2 rounded-xl"
-            } border-gray-200 shadow-lg shadow-slate-200`}
-            onSubmit={handleSubmit}
-          >
-            {!selectedTrack && (
-              <FontAwesomeIcon
-                icon={faMagnifyingGlass}
-                size="lg"
-                className="self-center text-slate-200 ml-2"
-              />
-            )}
-            <input
-              onKeyDown={(e) => {
-                handleKeyDown(e);
+    <>
+      <Navbar />
+      <Section>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Container>
+            <h1 className="md:text-3xl text-2xl font-bold text-slate-700 my-12">
+              {message}
+            </h1>
+            {/** Track player start*/}
+            <YouTube
+              className="hidden"
+              videoId={"9GkVhgIeGJQ"}
+              onReady={(e) => {
+                setPlayer(e.target);
               }}
-              placeholder="Search for a song"
-              onChange={(e) => handleChange(e)}
-              value={selectedTrack}
-              type="text"
-              className="text-xl w-full ml-3 text-slate-800 focus:outline-none focus:shadow-outline"
             />
-            <Button label="Try !" />
-          </form>
-          <div
-            className={`${
-              filteredTrackList.length > 0 ? "flex flex-col" : "hidden"
-            }  h-34 p-1 mb-4 bg-white border-b-2 border-l-2 border-r-2 border-gray-200 shadow-lg shadow-slate-200 rounded-b-xl z-20 relative`}
-          >
-            {filteredTrackList.map((track) => (
-              <span
-                onClick={() => handleClick(track.name)}
-                key={Math.random()}
-                className="text-left text-xl text-slate-800 px-4 py-2 border-t-2 border-gray-50 hover:cursor-pointer hover:bg-gray-100"
-              >
-                {track.name}
-              </span>
-            ))}
-          </div>
-        </Container>
-      )}
-    </Section>
+            <FontAwesomeIcon
+              icon={faPlay}
+              size="2xl"
+              className={`${
+                isPlaying && "hidden"
+              } cursor-pointer hover:scale-125 hover:shadow-2xl transition ease-out duration-300 mr-2 text-emerald-500`}
+              onClick={handlePlay}
+            />
+
+            <SoundEffect className={isPlaying === false && "hidden"} />
+            {/** Track player end*/}
+
+            <div className="flex justify-center my-4">
+              {attempts.map((attempt) => (
+                <AttemptBox key={Math.random()} color={attempt.color} />
+              ))}
+            </div>
+
+            {/* searchbar start */}
+            <form
+              className={`flex p-1 justify-around items-center mt-4 bg-white ${
+                filteredTrackList.length > 0
+                  ? "border-t-2 border-l-2 border-r-2 rounded-t-xl"
+                  : "border-2 rounded-xl"
+              } border-gray-200 shadow-lg shadow-slate-200`}
+              onSubmit={handleSubmit}
+            >
+              {!selectedTrack && (
+                <FontAwesomeIcon
+                  icon={faMagnifyingGlass}
+                  size="lg"
+                  className="self-center text-slate-200 ml-2"
+                />
+              )}
+              <input
+                onKeyDown={(e) => {
+                  handleKeyDown(e);
+                }}
+                placeholder="Search for a song"
+                onChange={(e) => handleChange(e)}
+                value={selectedTrack}
+                type="text"
+                className="text-xl w-full ml-3 text-slate-800 focus:outline-none focus:shadow-outline"
+              />
+              <Button label="Try !" />
+            </form>
+            <div
+              className={`${
+                filteredTrackList.length > 0 ? "flex flex-col" : "hidden"
+              }  h-34 p-1 mb-4 bg-white border-b-2 border-l-2 border-r-2 border-gray-200 shadow-lg shadow-slate-200 rounded-b-xl z-20 relative`}
+            >
+              {filteredTrackList.map((track) => (
+                <span
+                  onClick={() => handleClick(track.name)}
+                  key={Math.random()}
+                  className="text-left text-xl text-slate-800 px-4 py-2 border-t-2 border-gray-50 hover:cursor-pointer hover:bg-gray-100"
+                >
+                  {track.name}
+                </span>
+              ))}
+            </div>
+          </Container>
+        )}
+      </Section>
+    </>
   );
 };
