@@ -23,8 +23,6 @@ const attempts = [
   { id: 6, color: "bg-slate-300" },
 ];
 
-const now = moment();
-
 export const Game = () => {
   const [selectedTrack, setSelectedTrack] = React.useState("");
   const [winnerTrack, setWinnerTrack] = React.useState("");
@@ -41,10 +39,7 @@ export const Game = () => {
 
   const [player, setPlayer] = React.useState(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const [songBlock, setSongBlock] = React.useState(0);
-
-  const end = moment(winnerTrack.tomorrow);
-  const duration = moment.duration(end.diff(now));
+  const [songBlock, setSongBlock] = React.useState(0.6);
 
   const navigate = useNavigate();
 
