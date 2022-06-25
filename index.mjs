@@ -11,7 +11,7 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-let randomIndex = 39; //Math.floor(Math.random() * 10);
+let randomIndex = 18; //Math.floor(Math.random() * 10);
 let tomorrow = moment().add(1, "day");
 
 schedule.scheduleJob("* 59 23 * * *", function () {
